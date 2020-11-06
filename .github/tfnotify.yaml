@@ -1,0 +1,36 @@
+ci: github-actions
+notifier:
+  github:
+    token: $GITHUB_TOKEN
+    repository:
+      owner: "paypay3"
+      name: "kakeibo-app-api"
+terraform:
+  use_raw_output: true
+  plan:
+    template: |
+      ## Terraform plan result <sup>[CI link]( {{ .Link }} )</sup>
+      {{ .Message }}
+      {{if .Result}}
+      ```
+      {{ .Result }}
+      ```
+      {{end}}
+      <details>
+      <summary>Show Plan (Click me)</summary>
+
+      ```
+      {{ .Body }}
+      ```
+      </details>
+    when_add_or_update_only:
+      label: "add-or-update"
+    when_no_changes:
+      label: "no-changes"
+    when_destroy:
+      label: "destroy"
+      template: |
+        ## :warning: WARNING: Resource Deletion will happen :warning:
+        This plan contains **resource deletion**. Please check the plan result very carefully!
+    when_plan_error:
+      label: "error"
