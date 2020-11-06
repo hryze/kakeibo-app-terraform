@@ -4,7 +4,7 @@ notifier:
     token: $GITHUB_TOKEN
     repository:
       owner: "paypay3"
-      name: "kakeibo-app-api"
+      name: "kakeibo-app-terraform"
 terraform:
   use_raw_output: true
   plan:
