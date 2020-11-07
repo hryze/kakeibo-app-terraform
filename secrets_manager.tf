@@ -53,3 +53,17 @@ resource "aws_secretsmanager_secret_version" "todo_db_dsn" {
     ignore_changes = [secret_string]
   }
 }
+
+resource "aws_secretsmanager_secret" "argocd" {
+  name                    = "argocd-secret"
+  recovery_window_in_days = 0
+}
+
+resource "aws_secretsmanager_secret_version" "argocd" {
+  secret_id     = aws_secretsmanager_secret.argocd.id
+  secret_string = jsonencode(var.argocd_secret)
+
+  lifecycle {
+    ignore_changes = [secret_string]
+  }
+}

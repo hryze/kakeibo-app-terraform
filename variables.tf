@@ -118,6 +118,11 @@ variable "todo_db_dsn" {
   description = "DSN for todo service"
 }
 
+variable "argocd_secret" {
+  type        = map(string)
+  description = "Secret for ArgoCD"
+}
+
 locals {
   default_tags     = merge(local.project_tag, local.environment_tag)
   eks_tag          = map(format("kubernetes.io/cluster/%s", local.cluster_name), "shared")
