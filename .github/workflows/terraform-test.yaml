@@ -21,6 +21,7 @@ jobs:
       TF_VAR_user_db_dsn: ${{ secrets.USER_DB_DSN }}
       TF_VAR_account_db_dsn: ${{ secrets.ACCOUNT_DB_DSN }}
       TF_VAR_todo_db_dsn: ${{ secrets.TODO_DB_DSN }}
+      TF_VAR_argocd_secret: ${{ secrets.ARGOCD_SECRET }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
