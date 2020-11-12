@@ -144,7 +144,8 @@ data "aws_iam_policy_document" "external_secrets" {
       aws_secretsmanager_secret.rds_secret.arn,
       aws_secretsmanager_secret.user_db_dsn.arn,
       aws_secretsmanager_secret.account_db_dsn.arn,
-      aws_secretsmanager_secret.todo_db_dsn.arn
+      aws_secretsmanager_secret.todo_db_dsn.arn,
+      aws_secretsmanager_secret.argocd.arn
     ]
   }
 }
