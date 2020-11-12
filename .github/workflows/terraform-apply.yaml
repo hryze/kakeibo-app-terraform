@@ -1,0 +1,43 @@
+name: Terraform apply
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '**.tf'
+      - .github/workflows/terraform-apply.yaml
+defaults:
+  run:
+    shell: bash
+jobs:
+  apply:
+    name: Terraform apply
+    runs-on: ubuntu-latest
+    env:
+      TF_VAR_rds_user: ${{ secrets.RDS_USER }}
+      TF_VAR_rds_password: ${{ secrets.RDS_PASSWORD }}
+      TF_VAR_rds_secret: ${{ secrets.RDS_SECRET }}
+      TF_VAR_user_db_dsn: ${{ secrets.USER_DB_DSN }}
+      TF_VAR_account_db_dsn: ${{ secrets.ACCOUNT_DB_DSN }}
+      TF_VAR_todo_db_dsn: ${{ secrets.TODO_DB_DSN }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.13.3
+
+      - name: Terraform init
+        run: terraform init
+
+      - name: Terraform apply
+        run: terraform apply -auto-approve
