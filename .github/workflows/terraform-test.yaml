@@ -2,7 +2,7 @@ name: Terraform test
 on:
   push:
     branches-ignore:
-      - master
+      - main
     paths:
       - '**.tf'
       - .github/workflows/terraform-test.yaml
