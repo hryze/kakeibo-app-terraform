@@ -3,7 +3,7 @@ notifier:
   github:
     token: $GITHUB_TOKEN
     repository:
-      owner: "paypay3"
+      owner: "hryze"
       name: "kakeibo-app-terraform"
 terraform:
   use_raw_output: true
