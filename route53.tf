@@ -1,7 +1,7 @@
 data "aws_route53_zone" "website_zone" {
   name         = var.root_domain
   private_zone = false
-  tags         = merge(local.default_tags, map("Name", var.root_domain))
+  tags         = merge(local.default_tags, tomap({ "Name" = var.root_domain }))
 }
 
 resource "aws_route53_record" "website" {

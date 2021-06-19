@@ -1,7 +1,7 @@
 resource "aws_db_subnet_group" "kakeibo_rds_subnet_group" {
   name       = "kakeibo-rds-subnet-group"
   subnet_ids = local.private_subnet_ids
-  tags       = merge(local.default_tags, map("Name", "kakeibo-rds-subnet-group"))
+  tags       = merge(local.default_tags, tomap({ "Name" = "kakeibo-rds-subnet-group" }))
 }
 
 resource "aws_db_instance" "kakeibo_rds_instance" {
@@ -28,7 +28,7 @@ resource "aws_db_instance" "kakeibo_rds_instance" {
   db_subnet_group_name       = aws_db_subnet_group.kakeibo_rds_subnet_group.name
   option_group_name          = aws_db_option_group.kakeibo_rds_option_group.name
   parameter_group_name       = aws_db_parameter_group.kakeibo_rds_parameter_group.name
-  tags                       = merge(local.default_tags, map("Name", "kakeibo-rds-instance"))
+  tags                       = merge(local.default_tags, tomap({ "Name" = "kakeibo-rds-instance" }))
 
   enabled_cloudwatch_logs_exports = [
     "error",
@@ -48,13 +48,13 @@ resource "aws_db_option_group" "kakeibo_rds_option_group" {
   name                 = "kakeibo-rds-option-group"
   engine_name          = "mysql"
   major_engine_version = "8.0"
-  tags                 = merge(local.default_tags, map("Name", "kakeibo-rds-option-group"))
+  tags                 = merge(local.default_tags, tomap({ "Name" = "kakeibo-rds-option-group" }))
 }
 
 resource "aws_db_parameter_group" "kakeibo_rds_parameter_group" {
   name   = "kakeibo-rds-parameter-group"
   family = "mysql8.0"
-  tags   = merge(local.default_tags, map("Name", "kakeibo-rds-parameter-group"))
+  tags   = merge(local.default_tags, tomap({ "Name" = "kakeibo-rds-parameter-group" }))
 
   parameter {
     name  = "slow_query_log"

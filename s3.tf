@@ -1,7 +1,7 @@
 resource "aws_s3_bucket" "kakeibo_s3" {
   bucket = var.s3_bucketname
   acl    = "private"
-  tags   = merge(local.default_tags, map("Name", "kakeibo-s3"))
+  tags   = merge(local.default_tags, tomap({ "Name" = "kakeibo-s3" }))
 
   versioning {
     enabled = true

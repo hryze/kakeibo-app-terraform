@@ -17,7 +17,7 @@ resource "aws_elasticache_replication_group" "kakeibo_elasticache_replication_gr
   security_group_ids            = [aws_eks_cluster.kakeibo_eks_cluster.vpc_config[0].cluster_security_group_id]
   parameter_group_name          = aws_elasticache_parameter_group.kakeibo_elasticache_parameter_group.name
   subnet_group_name             = aws_elasticache_subnet_group.kakeibo_elasticache_subnet_group.name
-  tags                          = merge(local.default_tags, map("Name", "kakeibo-elasticache-replication-group"))
+  tags                          = merge(local.default_tags, tomap({ "Name" = "kakeibo-elasticache-replication-group" }))
 }
 
 resource "aws_elasticache_parameter_group" "kakeibo_elasticache_parameter_group" {
