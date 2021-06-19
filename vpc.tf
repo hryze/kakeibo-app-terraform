@@ -3,7 +3,7 @@ resource "aws_vpc" "kakeibo_vpc" {
   instance_tenancy     = "default"
   enable_dns_support   = true
   enable_dns_hostnames = true
-  tags                 = merge(local.default_tags, map("Name", "kakeibo-vpc"))
+  tags                 = merge(local.default_tags, tomap({ "Name" = "kakeibo-vpc" }))
 }
 
 resource "aws_subnet" "kakeibo_public_subnets" {
@@ -26,12 +26,12 @@ resource "aws_subnet" "kakeibo_private_subnets" {
 
 resource "aws_internet_gateway" "kakeibo_internet_gateway" {
   vpc_id = aws_vpc.kakeibo_vpc.id
-  tags   = merge(local.default_tags, map("Name", "kakeibo-internet-gateway"))
+  tags   = merge(local.default_tags, tomap({ "Name" = "kakeibo-internet-gateway" }))
 }
 
 resource "aws_route_table" "kakeibo_public_route_table" {
   vpc_id = aws_vpc.kakeibo_vpc.id
-  tags   = merge(local.default_tags, map("Name", "kakeibo-public-route-table"))
+  tags   = merge(local.default_tags, tomap({ "Name" = "kakeibo-public-route-table" }))
 
   route {
     gateway_id = aws_internet_gateway.kakeibo_internet_gateway.id
@@ -49,7 +49,7 @@ resource "aws_eip" "nat_gateway_eip" {
   count      = length(var.availability_zones)
   vpc        = true
   depends_on = [aws_internet_gateway.kakeibo_internet_gateway]
-  tags       = merge(local.default_tags, map("Name", format("kakeibo-nat-gateway-eip-%s", element(var.availability_zones, count.index))))
+  tags       = merge(local.default_tags, tomap({ "Name" = format("kakeibo-nat-gateway-eip-%s", element(var.availability_zones, count.index)) }))
 }
 
 resource "aws_nat_gateway" "kakeibo_nat_gateway" {
@@ -57,13 +57,13 @@ resource "aws_nat_gateway" "kakeibo_nat_gateway" {
   allocation_id = element(aws_eip.nat_gateway_eip.*.id, count.index)
   subnet_id     = element(local.public_subnet_ids, count.index)
   depends_on    = [aws_internet_gateway.kakeibo_internet_gateway]
-  tags          = merge(local.default_tags, map("Name", format("kakeibo-nat-gateway-%s", element(var.availability_zones, count.index))))
+  tags          = merge(local.default_tags, tomap({ "Name" = format("kakeibo-nat-gateway-%s", element(var.availability_zones, count.index)) }))
 }
 
 resource "aws_route_table" "kakeibo_private_route_table" {
   count  = length(var.availability_zones)
   vpc_id = aws_vpc.kakeibo_vpc.id
-  tags   = merge(local.default_tags, map("Name", format("kakeibo-private-route-table-%s", element(var.availability_zones, count.index))))
+  tags   = merge(local.default_tags, tomap({ "Name" = format("kakeibo-private-route-table-%s", element(var.availability_zones, count.index)) }))
 
   route {
     nat_gateway_id = element(aws_nat_gateway.kakeibo_nat_gateway.*.id, count.index)

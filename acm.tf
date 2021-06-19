@@ -3,7 +3,7 @@ resource "aws_acm_certificate" "cloudfront_acm_cert" {
   subject_alternative_names = [format("*.%s", var.root_domain)]
   validation_method         = "DNS"
   provider                  = aws.virginia
-  tags                      = merge(local.default_tags, map("Name", "cloudfront-acm-certificate"))
+  tags                      = merge(local.default_tags, tomap({ "Name" = "cloudfront-acm-certificate" }))
 }
 
 resource "aws_route53_record" "cloudfront_cert_validation" {
@@ -36,7 +36,7 @@ resource "aws_acm_certificate" "alb_ingress_acm_cert" {
   domain_name               = var.root_domain
   subject_alternative_names = [format("*.%s", var.root_domain)]
   validation_method         = "DNS"
-  tags                      = merge(local.default_tags, map("Name", "alb-ingress-acm-certificate"))
+  tags                      = merge(local.default_tags, tomap({ "Name" = "alb-ingress-acm-certificate" }))
 
   lifecycle {
     prevent_destroy = true

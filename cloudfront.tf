@@ -9,7 +9,7 @@ resource "aws_cloudfront_distribution" "kakeibo_cloudfront_distribution" {
   comment             = var.website_domain
   default_root_object = "index.html"
   price_class         = "PriceClass_200"
-  tags                = merge(local.default_tags, map("Name", "kakeibo-cloudfront-distribution"))
+  tags                = merge(local.default_tags, tomap({ "Name" = "kakeibo-cloudfront-distribution" }))
 
   origin {
     domain_name = aws_s3_bucket.kakeibo_s3.bucket_regional_domain_name

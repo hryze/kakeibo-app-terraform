@@ -2,7 +2,7 @@ resource "aws_security_group" "cluster_master_sg" {
   name        = "cluster-master-sg"
   description = "EKS cluster master security group"
   vpc_id      = aws_vpc.kakeibo_vpc.id
-  tags        = merge(local.default_tags, local.eks_tag, map("Name", "eks-master-sg"))
+  tags        = merge(local.default_tags, local.eks_tag, tomap({ "Name" = "eks-master-sg" }))
 
   ingress {
     from_port   = 80

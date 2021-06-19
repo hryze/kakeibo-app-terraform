@@ -2,7 +2,7 @@ resource "aws_eks_cluster" "kakeibo_eks_cluster" {
   name     = local.cluster_name
   role_arn = aws_iam_role.eks_master.arn
   version  = local.cluster_version
-  tags     = merge(local.default_tags, map("Name", "kakeibo-eks-cluster"))
+  tags     = merge(local.default_tags, tomap({ "Name" = "kakeibo-eks-cluster" }))
 
   vpc_config {
     security_group_ids = [aws_security_group.cluster_master_sg.id]
@@ -22,7 +22,7 @@ resource "aws_eks_node_group" "kakeibo_eks_node_group" {
   instance_types  = ["r5.large"]
   subnet_ids      = local.private_subnet_ids
   version         = local.cluster_version
-  tags            = merge(local.default_tags, map("Name", "kakeibo-eks-node-group"))
+  tags            = merge(local.default_tags, tomap({ "Name" = "kakeibo-eks-node-group" }))
 
   scaling_config {
     desired_size = 1

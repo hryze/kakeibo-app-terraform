@@ -125,12 +125,12 @@ variable "argocd_secret" {
 
 locals {
   default_tags     = merge(local.project_tag, local.environment_tag)
-  eks_tag          = map(format("kubernetes.io/cluster/%s", local.cluster_name), "shared")
-  elb_tag          = map("kubernetes.io/role/elb", 1)
-  internal_elb_tag = map("kubernetes.io/role/internal-elb", 1)
+  eks_tag          = tomap({ format("kubernetes.io/cluster/%s", local.cluster_name) = "shared" })
+  elb_tag          = tomap({ "kubernetes.io/role/elb" = 1 })
+  internal_elb_tag = tomap({ "kubernetes.io/role/internal-elb" = 1 })
 
-  project_tag     = map("Project", var.project)
-  environment_tag = map("Environment", var.environment)
+  project_tag     = tomap({ "Project" = var.project })
+  environment_tag = tomap({ "Environment" = var.environment })
 }
 
 locals {
@@ -146,19 +146,19 @@ locals {
       cidr   = element(var.public_subnet_cider_blocks, 0)
       zone   = element(var.availability_zones, 0)
       launch = true
-      name   = map("Name", format("kakeibo-public-subnet-%s", element(var.availability_zones, 0)))
+      name   = tomap({ "Name" = format("kakeibo-public-subnet-%s", element(var.availability_zones, 0)) })
     }
     public_subnet_1c = {
       cidr   = element(var.public_subnet_cider_blocks, 1)
       zone   = element(var.availability_zones, 1)
       launch = true
-      name   = map("Name", format("kakeibo-public-subnet-%s", element(var.availability_zones, 1)))
+      name   = tomap({ "Name" = format("kakeibo-public-subnet-%s", element(var.availability_zones, 1)) })
     }
     public_subnet_1d = {
       cidr   = element(var.public_subnet_cider_blocks, 2)
       zone   = element(var.availability_zones, 2)
       launch = true
-      name   = map("Name", format("kakeibo-public-subnet-%s", element(var.availability_zones, 2)))
+      name   = tomap({ "Name" = format("kakeibo-public-subnet-%s", element(var.availability_zones, 2)) })
     }
   }
 
@@ -167,19 +167,19 @@ locals {
       cidr   = element(var.private_subnet_cider_blocks, 0)
       zone   = element(var.availability_zones, 0)
       launch = false
-      name   = map("Name", format("kakeibo-private-subnet-%s", element(var.availability_zones, 0)))
+      name   = tomap({ "Name" = format("kakeibo-private-subnet-%s", element(var.availability_zones, 0)) })
     }
     private_subnet_1c = {
       cidr   = element(var.private_subnet_cider_blocks, 1)
       zone   = element(var.availability_zones, 1)
       launch = false
-      name   = map("Name", format("kakeibo-private-subnet-%s", element(var.availability_zones, 1)))
+      name   = tomap({ "Name" = format("kakeibo-private-subnet-%s", element(var.availability_zones, 1)) })
     }
     private_subnet_1d = {
       cidr   = element(var.private_subnet_cider_blocks, 2)
       zone   = element(var.availability_zones, 2)
       launch = false
-      name   = map("Name", format("kakeibo-private-subnet-%s", element(var.availability_zones, 2)))
+      name   = tomap({ "Name" = format("kakeibo-private-subnet-%s", element(var.availability_zones, 2)) })
     }
   }
 
